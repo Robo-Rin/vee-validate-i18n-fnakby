@@ -11,9 +11,11 @@
   "dependencies": {
     "@vee-validate/i18n": "^4.13.1",
     "@vee-validate/zod": "^4.13.1",
+    "i18next": "^23.11.5",
     "vee-validate": "^4.13.1",
     "vue": "^3.4.30",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",

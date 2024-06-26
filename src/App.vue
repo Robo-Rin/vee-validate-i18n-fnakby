@@ -1,39 +1,41 @@
 <script setup lang="ts">
-import { useField, useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod';
-import * as zod from 'zod';
-import { localize, setLocale } from '@vee-validate/i18n';
-import { configure } from 'vee-validate';
-import en from '@vee-validate/i18n/dist/locale/en.json';
-import de from '@vee-validate/i18n/dist/locale/de.json';
+import { toTypedSchema } from "@vee-validate/zod";
+import i18next from "i18next";
+import { useField, useForm } from "vee-validate";
+import { z } from "zod";
+import { zodI18nMap } from "zod-i18n-map";
+import de from "zod-i18n-map/locales/de/zod.json";
+import en from "zod-i18n-map/locales/en/zod.json";
 
-configure({
-  generateMessage: localize({
-    de,
-    en,
-  }),
-});
+z.setErrorMap(zodI18nMap);
+const translations: Record<string, object> = { de, en }; // This is a short syntax for { de: de, en: en }
 
-setLocale('de');
+function changeLocale(locale: string) {
+  i18next.init({
+    lng: locale,
+    resources: {
+      //    ↓      The angle bracket syntax is used to create a dynamically named property
+      [`${locale}`]: { zod: translations[locale] },
+    },
+  });
+}
+
+changeLocale("de");
 
 const validationSchema = toTypedSchema(
-  zod.object({
-    email: zod.string().min(5),
-    password: zod.string().min(8),
+  z.object({
+    email: z.string().min(5),
+    password: z.string().min(8),
   })
 );
 const { handleSubmit, errors } = useForm({
   validationSchema,
 });
-const { value: email } = useField('email');
-const { value: password } = useField('password');
+const { value: email } = useField("email");
+const { value: password } = useField("password");
 const onSubmit = handleSubmit((values) => {
   alert(JSON.stringify(values, null, 2));
 });
-
-function changeLocale(locale: string) {
-  setLocale(locale);
-}
 </script>
 
 <template>
