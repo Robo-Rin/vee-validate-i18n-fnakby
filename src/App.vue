@@ -14,7 +14,7 @@ function changeLocale(locale: string) {
   i18next.init({
     lng: locale,
     resources: {
-      //    ↓      The angle bracket syntax is used to create a dynamically named property
+      //    ↓      The square bracket syntax is used to create a dynamically named property
       [`${locale}`]: { zod: translations[locale] },
     },
   });
